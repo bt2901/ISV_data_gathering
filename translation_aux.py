@@ -31,7 +31,7 @@ def UDFeats2OpenCorpora(feats, src_lang):
         if key == "Animacy":
             if value =="Hum": value = "anim"
             elif value =="Inan": value = "inan"
-            elif value =="Nhum": pass #value = "inan" idk yet
+            elif value =="Nhum": pass #value = "inan" idk yet this one is pretty random
             result.append(value)
            
         if key == 'Case':
