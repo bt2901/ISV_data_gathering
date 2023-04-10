@@ -9,6 +9,8 @@ LANGS = {
 def UDPos2OpenCorpora(pos):
     if pos == "aux":
         return ["verb", "part"]
+    if pos == "adj":
+        return ["verb", "adj"] #for participles treated as adjectives
     if pos == "det":
         return ["pron", "adj"]
     if pos == "adp":
@@ -27,8 +29,11 @@ def UDFeats2OpenCorpora(feats, src_lang):
     result = []
     for key, value in feats.items():
         if key == "Animacy":
-            # fukken TODO
-            pass
+            if value =="Hum": value = "anim"
+            elif value =="Inan": value = "inan"
+            elif value =="Nhum": pass #value = "inan" idk yet
+            result.append(value)
+           
         if key == 'Case':
             CASES_MAP = {
                 "Nom": 'nomn',
@@ -46,8 +51,11 @@ def UDFeats2OpenCorpora(feats, src_lang):
                 value = "femn"
             result.append(value.lower())
         if key == 'Number':
-            result.append(value.lower())
+            if value.lower() =='ptan': value="Pltm"; result.append(value)
+            elif value.lower() == 'coll': value = "Sgtm"; result.append(value)
+            else: result.append(value.lower())
         if key == 'Tense':
+            if value.lower() == 'fut': value ='futr'
             result.append(value.lower())
         if key == 'Person':
             result.append(value.lower() + 'per')
@@ -68,6 +76,8 @@ def UDFeats2OpenCorpora(feats, src_lang):
                 result += ["~actv", "~pssv"]
             if value.lower() == "inf": 
                 result += ["infn"]
+            if value.lower() == "part": 
+                result += ["V-ju"]#helps distinguish participle from normal past tense verbs
             pass  # https://universaldependencies.org/ru/feat/VerbForm.html
         if key == 'Voice':
             if value.lower() == "act" and feats["VerbForm"] == "Part": 
