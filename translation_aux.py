@@ -23,6 +23,8 @@ def UDPos2OpenCorpora(pos):
         return ["part", "interjection", "conj", "adv"]
     if pos == "propn":
         return ["noun"]
+    if pos == "pron":
+        return ["npro"]
     return [pos]
 
 def UDFeats2OpenCorpora(feats, src_lang):
@@ -58,6 +60,7 @@ def UDFeats2OpenCorpora(feats, src_lang):
             if value.lower() == 'fut': value ='futr'
             result.append(value.lower())
         if key == 'Person':
+            if value.lower() =='0': result.append("pssv")#FIXW
             result.append(value.lower() + 'per')
         if key == 'Aspect':
             if value.lower() == "imp": 
