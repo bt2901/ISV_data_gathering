@@ -10,9 +10,9 @@ def UDPos2OpenCorpora(pos):
     if pos == "aux":
         return ["verb", "part"]
     if pos == "adj":
-        return ["verb", "adj"] #for participles treated as adjectives
+        return ["verb", "adjf"] #for participles treated as adjectives
     if pos == "det":
-        return ["pron", "adj"]
+        return ["npro", "adjf","adv"] #added 'adv' for vęće-> wiecej
     if pos == "adp":
         return ["prep"]
     if pos == "cconj":
@@ -32,8 +32,8 @@ def UDFeats2OpenCorpora(feats, src_lang):
     for key, value in feats.items():
         if key == "Animacy":
             if value =="Hum": value = "anim"
-            elif value =="Inan": value = "inan"
-            elif value =="Nhum": pass #value = "inan" idk yet this one is pretty random
+            if value =="Inan": value = "inan"
+            if value =="Nhum": pass #value = "inan" idk yet this one is pretty random
             result.append(value)
            
         if key == 'Case':
